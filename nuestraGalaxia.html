@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuestra Galaxia ♥</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    user-select:none;
+}
+
+:root{
+    --blanco:#fff8fc;
+    --rosa:#f48aaa;
+    --rosa-claro:#ffc4d8;
+    --vino:#761633;
+    --vino-oscuro:#360916;
+    --mauve:#a66b83;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#08030c;
+    font-family:Georgia,"Times New Roman",serif;
+    color:var(--blanco);
+}
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+#loading{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+        radial-gradient(circle at 50% 45%,#35102c 0%,#120617 35%,#050208 80%);
+    transition:opacity 1s ease,visibility 1s ease;
+}
+
+.loading-box{
+    width:min(420px,88vw);
+    padding:38px 30px;
+    text-align:center;
+    border:1px solid rgba(255,170,205,.35);
+    border-radius:24px;
+    background:rgba(20,5,19,.72);
+    box-shadow:
+        0 0 50px rgba(220,60,130,.15),
+        inset 0 0 40px rgba(255,100,160,.05);
+    backdrop-filter:blur(12px);
+}
+
+.loading-heart{
+    width:80px;
+    height:80px;
+    margin:0 auto 22px;
+    animation:loadingBeat 1.2s infinite ease-in-out;
+}
+
+.loading-heart svg{
+    width:100%;
+    height:100%;
+    overflow:visible;
+}
+
+.loading-title{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.loading-sub{
+    color:#dcb8c9;
+    font-size:15px;
+    margin-bottom:24px;
+}
+
+.progress{
+    height:9px;
+    border-radius:20px;
+    background:#241020;
+    overflow:hidden;
+    border:1px solid rgba(255,170,205,.25);
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    border-radius:20px;
+    background:linear-gradient(
+        90deg,
+        #9e244e,
+        #f17fa6,
+        #ffc1d5
+    );
+    box-shadow:0 0 15px rgba(245,100,160,.7);
+    transition:width .25s linear;
+}
+
+.percent{
+    display:block;
+    margin-top:10px;
+    color:#ffc2d5;
+    font-size:14px;
+}
+
+@keyframes loadingBeat{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.12)}
+}
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+#intro{
+    position:fixed;
+    inset:0;
+    z-index:900;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:
+        radial-gradient(circle at center,#3b102f 0%,#130619 38%,#050207 100%);
+    transition:opacity 1s ease,visibility 1s ease;
+}
+
+.intro-content{
+    width:min(700px,90vw);
+}
+
+.intro-heart{
+    width:145px;
+    height:145px;
+    margin:0 auto 25px;
+    filter:drop-shadow(0 0 30px rgba(242,92,145,.5));
+    animation:floatHeart 3s ease-in-out infinite;
+}
+
+.intro-heart svg{
+    width:100%;
+    height:100%;
+    overflow:visible;
+}
+
+.intro-title{
+    font-size:clamp(42px,8vw,78px);
+    letter-spacing:2px;
+    margin-bottom:12px;
+    text-shadow:0 0 25px rgba(255,120,170,.35);
+}
+
+.intro-sub{
+    color:#e8c8d5;
+    font-size:clamp(16px,3vw,22px);
+    margin-bottom:34px;
+}
+
+.enter-btn{
+    border:1px solid rgba(255,184,211,.5);
+    background:linear-gradient(
+        135deg,
+        rgba(120,20,55,.9),
+        rgba(48,8,28,.95)
+    );
+    color:white;
+    padding:16px 32px;
+    border-radius:50px;
+    font-family:inherit;
+    font-size:17px;
+    cursor:pointer;
+    box-shadow:
+        0 0 25px rgba(220,70,130,.2),
+        inset 0 0 20px rgba(255,140,180,.05);
+    transition:.3s;
+}
+
+.enter-btn:hover{
+    transform:translateY(-3px) scale(1.03);
+    box-shadow:0 0 35px rgba(240,100,160,.45);
+}
+
+@keyframes floatHeart{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-12px)}
+}
+
+/* =====================================================
+   GALAXY
+===================================================== */
+
+#galaxy{
+    position:fixed;
+    inset:0;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity 1.2s ease;
+    perspective:1400px;
+    background:
+        radial-gradient(
+            ellipse at 50% 45%,
+            rgba(116,28,83,.45),
+            transparent 35%
+        ),
+        radial-gradient(
+            ellipse at 20% 70%,
+            rgba(91,22,64,.25),
+            transparent 35%
+        ),
+        radial-gradient(
+            ellipse at 80% 25%,
+            rgba(91,26,78,.25),
+            transparent 35%
+        ),
+        #050208;
+}
+
+#stars{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+}
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:#fff;
+    border-radius:50%;
+    box-shadow:0 0 7px #fff;
+    animation:twinkle var(--time) ease-in-out infinite alternate;
+}
+
+@keyframes twinkle{
+    from{opacity:.15;transform:scale(.5)}
+    to{opacity:1;transform:scale(1.7)}
+}
+
+.nebula{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(55px);
+    pointer-events:none;
+}
+
+.nebula.one{
+    width:550px;
+    height:240px;
+    left:5%;
+    top:25%;
+    background:rgba(116,24,87,.18);
+    transform:rotate(-20deg);
+}
+
+.nebula.two{
+    width:600px;
+    height:280px;
+    right:0;
+    top:5%;
+    background:rgba(153,47,105,.13);
+    transform:rotate(25deg);
+}
+
+.nebula.three{
+    width:600px;
+    height:260px;
+    left:25%;
+    bottom:0;
+    background:rgba(93,24,65,.2);
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.galaxy-header{
+    position:absolute;
+    top:28px;
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+    z-index:50;
+    pointer-events:none;
+    width:90%;
+}
+
+.galaxy-header h1{
+    font-size:clamp(32px,5vw,58px);
+    text-shadow:
+        0 0 15px rgba(255,150,190,.4),
+        0 0 35px rgba(180,40,100,.2);
+}
+
+.galaxy-header p{
+    margin-top:8px;
+    color:#e2bdce;
+    font-size:15px;
+}
+
+/* =====================================================
+   GALAXY WORLD
+===================================================== */
+
+#world{
+    position:absolute;
+    inset:0;
+    transform-style:preserve-3d;
+    transform:
+        rotateX(5deg)
+        rotateY(0deg);
+    transition:transform .08s linear;
+}
+
+/* orbital rings */
+
+.orbit{
+    position:absolute;
+    left:50%;
+    top:53%;
+    border:1px solid rgba(242,133,174,.16);
+    border-radius:50%;
+    transform-style:preserve-3d;
+    pointer-events:none;
+}
+
+.orbit.o1{
+    width:700px;
+    height:270px;
+    margin-left:-350px;
+    margin-top:-135px;
+    transform:rotateX(67deg);
+}
+
+.orbit.o2{
+    width:900px;
+    height:340px;
+    margin-left:-450px;
+    margin-top:-170px;
+    transform:rotateX(67deg) rotateZ(25deg);
+}
+
+.orbit.o3{
+    width:1100px;
+    height:420px;
+    margin-left:-550px;
+    margin-top:-210px;
+    transform:rotateX(67deg) rotateZ(-20deg);
+}
+
+.orbit::after{
+    content:"";
+    position:absolute;
+    width:5px;
+    height:5px;
+    background:#ffc4d9;
+    border-radius:50%;
+    box-shadow:0 0 12px #ff8eb2;
+    left:18%;
+    top:5%;
+}
+
+/* =====================================================
+   HEART 3D
+===================================================== */
+
+.heart3d{
+    position:relative;
+    width:100px;
+    height:90px;
+    transform-style:preserve-3d;
+    filter:
+        drop-shadow(0 12px 13px rgba(0,0,0,.45))
+        drop-shadow(0 0 18px rgba(225,65,120,.25));
+}
+
+/*
+   Cada capa se desplaza ligeramente hacia atrás.
+   Esto crea la sensación de corazón extruido.
+*/
+
+.heart-layer{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    overflow:visible;
+}
+
+.heart-layer path{
+    stroke-linejoin:round;
+}
+
+.heart-back-5{
+    transform:translateZ(-18px) translate(4px,6px);
+}
+
+.heart-back-4{
+    transform:translateZ(-14px) translate(3px,5px);
+}
+
+.heart-back-3{
+    transform:translateZ(-10px) translate(2px,4px);
+}
+
+.heart-back-2{
+    transform:translateZ(-7px) translate(1.5px,3px);
+}
+
+.heart-back-1{
+    transform:translateZ(-4px) translate(1px,1.5px);
+}
+
+.heart-front{
+    transform:translateZ(0);
+}
+
+/* brillo */
+.heart-shine{
+    opacity:.45;
+    filter:blur(.5px);
+}
+
+/* =====================================================
+   ISLAS
+===================================================== */
+
+.heartIsland{
+    position:absolute;
+    transform-style:preserve-3d;
+    cursor:pointer;
+    transition:filter .3s;
+}
+
+.heartIsland:hover{
+    filter:brightness(1.18);
+}
+
+.island-base{
+    position:absolute;
+    width:85px;
+    height:32px;
+    left:50%;
+    top:78%;
+    transform:
+        translate(-50%,-50%)
+        rotateX(65deg);
+    border-radius:50%;
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(124,35,66,.9),
+            rgba(53,9,27,.2) 65%,
+            transparent 70%
+        );
+    box-shadow:
+        0 0 25px rgba(199,55,104,.2);
+}
+
+/* pequeños fragmentos alrededor */
+.island-base::before,
+.island-base::after{
+    content:"";
+    position:absolute;
+    width:8px;
+    height:14px;
+    background:#5c1730;
+    transform:rotate(25deg);
+    opacity:.7;
+}
+
+.island-base::before{
+    left:18px;
+    top:13px;
+}
+
+.island-base::after{
+    right:14px;
+    top:9px;
+    transform:rotate(-20deg);
+}
+
+/* =====================================================
+   COLORES DE CORAZONES
+===================================================== */
+
+.red .heart-front path{
+    fill:url(#redFront);
+}
+
+.red .heart-back-1 path{fill:#8a173d}
+.red .heart-back-2 path{fill:#68112e}
+.red .heart-back-3 path{fill:#501026}
+.red .heart-back-4 path{fill:#871b43}
+.red .heart-back-5 path{fill:#ca2260}
+
+.wine .heart-front path{
+    fill:url(#wineFront);
+}
+
+.wine .heart-back-1 path{fill:#70152f}
+.wine .heart-back-2 path{fill:#551025}
+.wine .heart-back-3 path{fill:#420b1c}
+.wine .heart-back-4 path{fill:#790c2c}
+.wine .heart-back-5 path{fill:#bd1544}
+
+.pink .heart-front path{
+    fill:url(#pinkFront);
+}
+
+.pink .heart-back-1 path{fill:#b85a76}
+.pink .heart-back-2 path{fill:#91435c}
+.pink .heart-back-3 path{fill:#713247}
+.pink .heart-back-4 path{fill:#562638}
+.pink .heart-back-5 path{fill:#3c1a29}
+
+.soft .heart-front path{
+    fill:url(#softFront);
+}
+
+.soft .heart-back-1 path{fill:#c87591}
+.soft .heart-back-2 path{fill:#a45b73}
+.soft .heart-back-3 path{fill:#80445b}
+.soft .heart-back-4 path{fill:#613447}
+.soft .heart-back-5 path{fill:#452433}
+
+/* =====================================================
+   CORAZÓN CENTRAL
+===================================================== */
+
+#central{
+    position:absolute;
+    left:50%;
+    top:52%;
+    transform:
+        translate(-50%,-50%)
+        translateZ(80px);
+    z-index:20;
+    cursor:pointer;
+}
+
+#central .heart3d{
+    width:180px;
+    height:162px;
+    animation:centerFloat 4s ease-in-out infinite;
+    filter:
+        drop-shadow(0 20px 22px rgba(133, 3, 79, 0.6))
+        drop-shadow(0 0 35px rgba(231,69,128,.55));
+}
+
+#central .heart-layer{
+    animation:none;
+}
+
+#central .heart-shine{
+    opacity:.58;
+}
+
+@keyframes centerFloat{
+    0%,100%{
+        transform:translateY(0) rotateY(-5deg);
+    }
+    50%{
+        transform:translateY(-13px) rotateY(5deg);
+    }
+}
+
+/* =====================================================
+   BOTÓN RESET
+===================================================== */
+
+.reset{
+    position:absolute;
+    top:28px;
+    right:30px;
+    width:48px;
+    height:48px;
+    z-index:100;
+    border-radius:50%;
+    border:1px solid rgba(255,185,210,.4);
+    background:rgba(88, 8, 66, 0.7);
+    color:#ffd5e2;
+    font-size:22px;
+    cursor:pointer;
+    backdrop-filter:blur(8px);
+    transition:.3s;
+}
+
+.reset:hover{
+    transform:rotate(-180deg);
+    box-shadow:0 0 20px rgba(238,99,150,.4);
+}
+
+/* =====================================================
+   TARJETA
+===================================================== */
+
+#message{
+    position:absolute;
+    z-index:500;
+    top:50%;
+    right:5%;
+    width:min(380px,86vw);
+    padding:30px 28px;
+    border-radius:18px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(55,15,36,.97),
+            rgba(27, 7, 20, 0.98)
+        );
+    border:1px solid rgba(255,180,205,.35);
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.55),
+        0 0 35px rgba(196,53,107,.18);
+    backdrop-filter:blur(15px);
+    transform:
+        translateY(-50%)
+        translateX(120%);
+    opacity:0;
+    transition:.55s cubic-bezier(.2,.8,.2,1);
+}
+
+#message.show{
+    transform:
+        translateY(-50%)
+        translateX(0);
+    opacity:1;
+}
+
+.close{
+    position:absolute;
+    right:15px;
+    top:12px;
+    border:0;
+    background:none;
+    color:#eab9ca;
+    font-size:23px;
+    cursor:pointer;
+}
+
+.message-small{
+    color:#d985a2;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-size:11px;
+    margin-bottom:12px;
+}
+
+.message-title{
+    font-size:29px;
+    margin-bottom:17px;
+    color:#fff1f6;
+}
+
+.message-text{
+    color:#dfc4cf;
+    line-height:1.8;
+    font-size:16px;
+}
+
+.message-heart{
+    color:#e97c9e;
+    font-size:25px;
+    margin-top:17px;
+}
+
+/* =====================================================
+   INSTRUCCIÓN
+===================================================== */
+
+.hint{
+    position:absolute;
+    z-index:100;
+    bottom:28px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:12px 25px;
+    border-radius:30px;
+    background:rgba(141, 34, 112, 0.68);
+    border:1px solid rgba(127, 31, 65, 0.2);
+    color:#dcb8c8;
+    font-size:14px;
+    backdrop-filter:blur(8px);
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:700px){
+
+    .galaxy-header{
+        top:18px;
+    }
+
+    .galaxy-header p{
+        font-size:13px;
+    }
+
+    #central .heart3d{
+        width:130px;
+        height:117px;
+    }
+
+    .heart3d{
+        width:72px;
+        height:65px;
+    }
+
+    .orbit.o1{
+        width:520px;
+        height:200px;
+        margin-left:-260px;
+        margin-top:-100px;
+    }
+
+    .orbit.o2{
+        width:680px;
+        height:250px;
+        margin-left:-340px;
+        margin-top:-125px;
+    }
+
+    .orbit.o3{
+        width:820px;
+        height:310px;
+        margin-left:-410px;
+        margin-top:-155px;
+    }
+
+    #message{
+        top:auto;
+        bottom:80px;
+        right:50%;
+        transform:
+            translateX(50%)
+            translateY(130%);
+    }
+
+    #message.show{
+        transform:
+            translateX(50%)
+            translateY(0);
+    }
+
+    .message-title{
+        font-size:24px;
+    }
+
+    .message-text{
+        font-size:14px;
+    }
+
+    .hint{
+        bottom:18px;
+        font-size:12px;
+        white-space:nowrap;
+    }
+
+    .reset{
+        top:18px;
+        right:18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     SVG DEFINITIONS
+===================================================== -->
+
+<svg width="0" height="0" style="position:absolute">
+
+<defs>
+
+    <!-- SILUETA NATURAL DEL CORAZÓN -->
+    <path id="heartPath"
+        d="
+        M50 91
+        C45 85 12 63 6 43
+        C1 26 8 10 23 6
+        C36 2 46 9 50 20
+        C54 9 64 2 77 6
+        C92 10 99 26 94 43
+        C88 63 55 85 50 91
+        Z
+        "
+    />
+
+    <!-- ROJO -->
+    <linearGradient id="redFront"
+        x1="15%" y1="5%"
+        x2="85%" y2="100%">
+        <stop offset="0%" stop-color="#ffb3c9"/>
+        <stop offset="18%" stop-color="#ed6f96"/>
+        <stop offset="48%" stop-color="#c82f63"/>
+        <stop offset="78%" stop-color="#8d163d"/>
+        <stop offset="100%" stop-color="#4b0c23"/>
+    </linearGradient>
+
+    <!-- VINO -->
+    <linearGradient id="wineFront"
+        x1="15%" y1="5%"
+        x2="85%" y2="100%">
+        <stop offset="0%" stop-color="#d97b9a"/>
+        <stop offset="20%" stop-color="#a9365c"/>
+        <stop offset="50%" stop-color="#791633"/>
+        <stop offset="78%" stop-color="#551025"/>
+        <stop offset="100%" stop-color="#2d0715"/>
+    </linearGradient>
+
+    <!-- ROSA -->
+    <linearGradient id="pinkFront"
+        x1="10%" y1="0%"
+        x2="90%" y2="100%">
+        <stop offset="0%" stop-color="#ffe0e9"/>
+        <stop offset="20%" stop-color="#f5a4bb"/>
+        <stop offset="48%" stop-color="#df6489"/>
+        <stop offset="78%" stop-color="#a83d60"/>
+        <stop offset="100%" stop-color="#66243d"/>
+    </linearGradient>
+
+    <!-- ROSA SUAVE -->
+    <linearGradient id="softFront"
+        x1="10%" y1="0%"
+        x2="90%" y2="100%">
+        <stop offset="0%" stop-color="#fff0f5"/>
+        <stop offset="25%" stop-color="#f6bdce"/>
+        <stop offset="55%" stop-color="#dc819d"/>
+        <stop offset="80%" stop-color="#a65774"/>
+        <stop offset="100%" stop-color="#633146"/>
+    </linearGradient>
+
+</defs>
+</svg>
+
+
+<!-- =====================================================
+     LOADING
+===================================================== -->
+
+<section id="loading">
+
+    <div class="loading-box">
+
+        <div class="loading-heart">
+            <svg viewBox="0 0 100 100">
+                <use href="#heartPath"
+                     fill="url(#redFront)"
+                     stroke="#ffb3cb"
+                     stroke-width="1"/>
+                <path
+                    d="M22 24 C30 14 40 17 44 25"
+                    fill="none"
+                    stroke="white"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    opacity=".5"/>
+            </svg>
+        </div>
+
+        <div class="loading-title">
+            Preparando galaxia...
+        </div>
+
+        <div class="loading-sub">
+            Creando un pequeño universo para vos ♥
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <span class="percent" id="percent">
+            0%
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<section id="intro">
+
+    <div class="intro-content">
+
+        <div class="intro-heart">
+
+            <svg viewBox="0 0 100 100">
+
+                <use href="#heartPath"
+                     fill="url(#wineFront)"
+                     stroke="#ff9fbd"
+                     stroke-width="1"/>
+
+                <use href="#heartPath"
+                     fill="none"
+                     stroke="#ffbfd2"
+                     stroke-width="1"
+                     opacity=".5"
+                     transform="translate(0 -1)"/>
+
+                <path
+                    d="M22 25 C28 15 38 14 43 23"
+                    fill="none"
+                    stroke="white"
+                    stroke-width="4"
+                    stroke-linecap="round"
+                    opacity=".5"
+                />
+
+            </svg>
+
+        </div>
+
+        <h1 class="intro-title">
+            Nuestra Galaxia
+        </h1>
+
+        <p class="intro-sub">
+            Un pequeño universo hecho solamente para nosotros ♥
+        </p>
+
+        <button class="enter-btn" id="enterBtn">
+            Entrar a nuestra galaxia ♥
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     GALAXY
+===================================================== -->
+
+<main id="galaxy">
+
+    <div id="stars"></div>
+
+    <div class="nebula one"></div>
+    <div class="nebula two"></div>
+    <div class="nebula three"></div>
+
+    <header class="galaxy-header">
+        <h1>✦ Nuestra Galaxia ✦</h1>
+        <p>Tocá un corazón para descubrir un mensaje</p>
+    </header>
+
+    <button class="reset" id="resetBtn">
+        ↻
+    </button>
+
+
+    <div id="world">
+
+        <div class="orbit o1"></div>
+        <div class="orbit o2"></div>
+        <div class="orbit o3"></div>
+
+
+        <!-- CORAZÓN CENTRAL -->
+
+        <div id="central">
+
+            <div class="heart3d red">
+
+                <svg class="heart-layer heart-back-5"
+                     viewBox="0 0 100 100">
+                    <use href="#heartPath"/>
+                </svg>
+
+                <svg class="heart-layer heart-back-4"
+                     viewBox="0 0 100 100">
+                    <use href="#heartPath"/>
+                </svg>
+
+                <svg class="heart-layer heart-back-3"
+                     viewBox="0 0 100 100">
+                    <use href="#heartPath"/>
+                </svg>
+
+                <svg class="heart-layer heart-back-2"
+                     viewBox="0 0 100 100">
+                    <use href="#heartPath"/>
+                </svg>
+
+                <svg class="heart-layer heart-back-1"
+                     viewBox="0 0 100 100">
+                    <use href="#heartPath"/>
+                </svg>
+
+                <svg class="heart-layer heart-front"
+                     viewBox="0 0 100 100">
+
+                    <use href="#heartPath"/>
+
+                    <path
+                        class="heart-shine"
+                        d="M19 27 C25 15 38 13 44 23 C34 19 26 23 19 27Z"
+                        fill="white"
+                    />
+
+                    <ellipse
+                        cx="35"
+                        cy="31"
+                        rx="8"
+                        ry="4"
+                        fill="white"
+                        opacity=".22"
+                        transform="rotate(-25 35 31)"
+                    />
+
+                </svg>
+
+            </div>
+
+            <div class="island-base"></div>
+
+        </div>
+
+
+        <!-- LAS DEMÁS ISLAS SE CREAN CON JS -->
+
+    </div>
+
+
+    <div id="message">
+
+        <button class="close" id="closeMessage">
+            ×
+        </button>
+
+        <div class="message-small">
+            Un mensaje para vos
+        </div>
+
+        <div class="message-title" id="messageTitle">
+            Mi lugar favorito ♥
+        </div>
+
+        <div class="message-text" id="messageText">
+            No es un lugar específico.
+            Es cualquier lugar donde podamos estar juntos,
+            hablar de cualquier cosa y simplemente disfrutar.
+        </div>
+
+        <div class="message-heart">
+            ♥
+        </div>
+
+    </div>
+
+
+    <div class="hint">
+        ← Arrastrá para explorar nuestra galaxia →
+    </div>
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   DATOS
+===================================================== */
+
+const messages = [
+
+    {
+        title:"Mi lugar ♥",
+        text:"para muchos, un hogar puede ser una casa de cuatro paredes, para mi mi hogar es donde puedo ser yo mismo, donde puedo hablar, llorar, desahogarme y ser yo mismo sin importar lo que pase, siempre sere aceptado en vos, mi hogar."
+    },
+
+    {
+        title:"Si pudiera elegir...",
+        text:"Te elegiría una y otra vez, sin duda alguna. Entre millones de personas, mi corazón siempre encontraría el camino hacia vos."
+    },
+
+    {
+        title:"Tú y yo ♥",
+        text:"Me encanta la tranquilidad que siento cuando estoy contigo. me olvido del mundo y es Como si por un momento todo estuviera exactamente donde tiene que estar."
+    },
+
+    {
+        title:"Una pequeña promesa ♥",
+        text:"Quiero seguir creando recuerdos contigo, incluso de esas cosas y planes simples que terminan siendo los mas perfectos, por el simple hecho de ser solo TÚ y YO."
+    },
+
+    {
+        title:"Gracias ♥",
+        text:"Gracias por cada conversación, cada risa, momentos buenos y malos, y por cada vez que hacés que un día normal se vuelva el mas lindo de todos."
+    },
+
+    {
+        title:"mi bebé ♥",
+        text:"Mas que el amor de mi vida, mi apodo favorito siempre va a ser este que te representa como la nena que quiero cuidar toda la vida, esa nena enojona, llorona, dramatica, medio rrarita, pero por sobre todo,hermosa, preciosa, sensible, tierna y con un corazon de oro.mi bebé tiquitita ♥."
+    },
+    {
+        title:"Cuando te extraño? ♥",
+        text:"desde el momento que me despido de vos, desde el momento que te vas, cada segundo del dia, no puedo hacer algo sin pensar en lo lindo que seria tenerte haciendolo conmigo."
+    },
+
+    {
+        title:"Nuestro pequeño universo ♥",
+        text:"Si este universo tuviera un centro, probablemente estaría donde estamos nosotros dos, compartiendo un momento cualquiera."
+    },
+
+    {
+        title:"Tu sonrisa ♥",
+        text:"Hay momentos en los que simplemente te veo sonreír y pienso que es lo mas extraordinario que mis ojos pueden ver y que podría quedarme ahí toda la vida."
+    },
+
+    {
+        title:"Lo bonito ♥",
+        text:"Lo bonito no siempre son los grandes momentos. Muchas veces está en una conversación, una mirada, un detallito, o simplemente estar juntitos."
+    },
+
+    {
+        title:"Siempre un poquito más,♥",
+        text:"Cada momento contigo hace que quiera conocer más de vos, vivir más cosas a tu lado y seguir creando momentos unicos e irrepetibles."
+    },
+
+    {
+        title:"Mi casualidad favorita ♥",
+        text:"De todas las casualidades que pudieron ocurrir, encontrarte a vos terminó siendo mi casualidad y Dioscidencia favorita."
+    },
+
+    {
+        title:"Un abrazo ♥",
+        text:"Si pudiera guardar un solo lugar para volver siempre, probablemente sería uno de esos abrazos donde es el unico lugar donde todo esta bien."
+    },
+
+    {
+        title:"Vos hacés especial... ♥",
+        text:"Incluso los días normales pueden sentirse diferentes cuando estás vos. Y creo que eso define totalmente lo que significa tu amor y de lo representas en mi vida."
+    },
+
+    {
+        title:"Y todavía falta...♥",
+        text:"Todavia faltan cosas por vivir juntos, cosas increibles que haran que lo nuestro no sea algo simple, y quede guardado para siempre en nuestra historia de Amor."
+    }
+
+];
+
+
+/* =====================================================
+   LOADING
+===================================================== */
+
+const loading = document.getElementById("loading");
+const progressBar = document.getElementById("progressBar");
+const percent = document.getElementById("percent");
+
+let progress = 0;
+
+const loadingInterval = setInterval(()=>{
+
+    progress += Math.floor(Math.random()*5)+1;
+
+    if(progress >= 100){
+
+        progress = 100;
+
+        clearInterval(loadingInterval);
+
+        setTimeout(()=>{
+
+            loading.style.opacity = "0";
+            loading.style.visibility = "hidden";
+
+        },500);
+    }
+
+    progressBar.style.width = progress + "%";
+    percent.textContent = progress + "%";
+
+},100);
+
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+const intro = document.getElementById("intro");
+const galaxy = document.getElementById("galaxy");
+const enterBtn = document.getElementById("enterBtn");
+
+enterBtn.addEventListener("click",()=>{
+
+    intro.style.opacity = "0";
+    intro.style.visibility = "hidden";
+
+    galaxy.style.visibility = "visible";
+    galaxy.style.opacity = "1";
+
+});
+
+
+/* =====================================================
+   ESTRELLAS
+===================================================== */
+
+const stars = document.getElementById("stars");
+
+for(let i=0;i<220;i++){
+
+    const star = document.createElement("div");
+
+    star.className = "star";
+
+    star.style.left = Math.random()*100 + "%";
+    star.style.top = Math.random()*100 + "%";
+
+    const size = Math.random()*2.5+.5;
+
+    star.style.width = size+"px";
+    star.style.height = size+"px";
+
+    star.style.setProperty(
+        "--time",
+        (Math.random()*4+2)+"s"
+    );
+
+    star.style.animationDelay =
+        Math.random()*4+"s";
+
+    stars.appendChild(star);
+}
+
+
+/* =====================================================
+   CREAR CORAZONES
+===================================================== */
+
+const world = document.getElementById("world");
+
+const colors = [
+    "red",
+    "wine",
+    "pink",
+    "soft",
+    "wine",
+    "red",
+    "pink",
+    "wine"
+];
+
+const positions = [
+
+    [-39,-25,90,0.8],
+    [-25,-5,170,0.68],
+    [-8,-30,250,0.62],
+    [12,-25,150,0.7],
+    [29,-8,210,0.78],
+    [40,-28,120,0.63],
+
+    [-42,15,240,0.64],
+    [-30,29,80,0.75],
+    [-16,15,180,0.57],
+    [0,23,280,0.62],
+    [17,14,130,0.72],
+    [32,28,230,0.63],
+    [44,10,300,0.7],
+
+    [-46,42,180,0.54],
+    [-34,50,280,0.58],
+    [-20,42,70,0.5],
+    [-5,48,210,0.56],
+    [12,46,330,0.53],
+    [27,50,150,0.6],
+    [42,43,250,0.55],
+
+    [-48,-45,310,0.55],
+    [-34,-50,130,0.62],
+    [-20,-43,230,0.5],
+    [-5,-52,50,0.55],
+    [14,-48,180,0.58],
+    [29,-50,290,0.52],
+    [46,-42,100,0.6],
+
+    [-52,0,50,0.48],
+    [52,-5,240,0.52],
+    [-50,27,150,0.5],
+    [51,25,330,0.55],
+    [-28,-65,210,0.45],
+    [30,-65,80,0.48],
+    [-29,66,300,0.46],
+    [31,66,170,0.5]
+];
+
+
+positions.forEach((pos,index)=>{
+
+    const [x,y,z,scale] = pos;
+
+    const island = document.createElement("div");
+
+    island.className =
+        "heartIsland " +
+        colors[index % colors.length];
+
+    island.dataset.index = index % messages.length;
+
+    island.style.left =
+        `calc(50% + ${x}vw)`;
+
+    island.style.top =
+        `calc(52% + ${y}vh)`;
+
+    island.style.transform =
+        `translate(-50%,-50%)
+         translateZ(${z}px)
+         scale(${scale})
+         rotateY(${(index*37)%360}deg)`;
+
+    const base = document.createElement("div");
+
+    base.className = "island-base";
+
+    const heart = document.createElement("div");
+
+    heart.className = "heart3d";
+
+    heart.innerHTML = `
+
+        <svg class="heart-layer heart-back-5"
+             viewBox="0 0 100 100">
+            <use href="#heartPath"/>
+        </svg>
+
+        <svg class="heart-layer heart-back-4"
+             viewBox="0 0 100 100">
+            <use href="#heartPath"/>
+        </svg>
+
+        <svg class="heart-layer heart-back-3"
+             viewBox="0 0 100 100">
+            <use href="#heartPath"/>
+        </svg>
+
+        <svg class="heart-layer heart-back-2"
+             viewBox="0 0 100 100">
+            <use href="#heartPath"/>
+        </svg>
+
+        <svg class="heart-layer heart-back-1"
+             viewBox="0 0 100 100">
+            <use href="#heartPath"/>
+        </svg>
+
+        <svg class="heart-layer heart-front"
+             viewBox="0 0 100 100">
+
+            <use href="#heartPath"/>
+
+            <path
+                class="heart-shine"
+                d="M19 27 C25 15 38 13 44 23 C34 19 26 23 19 27Z"
+                fill="white"
+            />
+
+            <ellipse
+                cx="34"
+                cy="31"
+                rx="7"
+                ry="3.5"
+                fill="white"
+                opacity=".2"
+                transform="rotate(-25 34 31)"
+            />
+
+        </svg>
+    `;
+
+    island.appendChild(heart);
+    island.appendChild(base);
+
+    world.appendChild(island);
+
+});
+
+
+/* =====================================================
+   MENSAJES
+===================================================== */
+
+const messageBox = document.getElementById("message");
+const messageTitle = document.getElementById("messageTitle");
+const messageText = document.getElementById("messageText");
+const closeMessage = document.getElementById("closeMessage");
+
+function openMessage(index){
+
+    const msg = messages[index];
+
+    messageTitle.textContent = msg.title;
+    messageText.textContent = msg.text;
+
+    messageBox.classList.add("show");
+}
+
+closeMessage.addEventListener("click",()=>{
+
+    messageBox.classList.remove("show");
+
+});
+
+
+/* =====================================================
+   CLICK / TOUCH EN CORAZONES
+===================================================== */
+
+let pointerDownX = 0;
+let pointerDownY = 0;
+
+document.querySelectorAll(".heartIsland").forEach(island=>{
+
+    island.addEventListener("pointerdown",(e)=>{
+
+        pointerDownX = e.clientX;
+        pointerDownY = e.clientY;
+
+    });
+
+    island.addEventListener("pointerup",(e)=>{
+
+        const dx =
+            Math.abs(e.clientX-pointerDownX);
+
+        const dy =
+            Math.abs(e.clientY-pointerDownY);
+
+        /* Solo abre si realmente fue un toque/click */
+        if(dx < 10 && dy < 10){
+
+            openMessage(
+                Number(island.dataset.index)
+            );
+
+        }
+
+    });
+
+});
+
+
+/* =====================================================
+   360° DRAG
+===================================================== */
+
+let dragging = false;
+
+let startX = 0;
+let startY = 0;
+
+let rotationY = 0;
+let rotationX = 5;
+
+const worldStart = {
+    x:0,
+    y:5
+};
+
+function updateWorld(){
+
+    world.style.transform =
+        `rotateX(${rotationX}deg)
+         rotateY(${rotationY}deg)`;
+
+}
+
+galaxy.addEventListener("pointerdown",(e)=>{
+
+    if(
+        e.target.closest(".heartIsland") ||
+        e.target.closest("#message") ||
+        e.target.closest(".reset") ||
+        e.target.closest(".enter-btn")
+    ){
+        return;
+    }
+
+    dragging = true;
+
+    startX = e.clientX;
+    startY = e.clientY;
+
+    galaxy.setPointerCapture(e.pointerId);
+
+});
+
+
+galaxy.addEventListener("pointermove",(e)=>{
+
+    if(!dragging) return;
+
+    const dx = e.clientX-startX;
+    const dy = e.clientY-startY;
+
+    rotationY += dx*.22;
+    rotationX -= dy*.12;
+
+    rotationX =
+        Math.max(-25,Math.min(25,rotationX));
+
+    startX = e.clientX;
+    startY = e.clientY;
+
+    updateWorld();
+
+});
+
+
+galaxy.addEventListener("pointerup",()=>{
+
+    dragging = false;
+
+});
+
+galaxy.addEventListener("pointercancel",()=>{
+
+    dragging = false;
+
+});
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+const resetBtn = document.getElementById("resetBtn");
+
+resetBtn.addEventListener("click",()=>{
+
+    rotationY = 0;
+    rotationX = 5;
+
+    updateWorld();
+
+    messageBox.classList.remove("show");
+
+});
+
+
+/* =====================================================
+   MOVIMIENTO SUAVE AUTOMÁTICO
+===================================================== */
+
+let idleTime = 0;
+
+setInterval(()=>{
+
+    if(!dragging && !messageBox.classList.contains("show")){
+
+        idleTime += .015;
+
+        world.style.transform =
+            `rotateX(${rotationX + Math.sin(idleTime)*1.5}deg)
+             rotateY(${rotationY + Math.sin(idleTime*.55)*2}deg)`;
+
+    }
+
+},30);
+
+</script>
+
+</body>
+</html>
